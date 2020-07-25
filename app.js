@@ -121,13 +121,14 @@ app.post('/login', (req,res,next) => {
 
 //verify login
 function verifyLogin(userLogin){
-    let lookup = users.find(user => user.username === userLogin.username && user.password === userLogin.password)
-    return lookup !== undefined ? true : false 
+    //let lookup = users.find(user => user.username === userLogin.username && user.password === userLogin.password)
+    //return lookup !== undefined ? true : false 
+    return users.some(user => user.username === userLogin.username && user.password === userLogin.password)
+    
 }
 
 //verify session
 function sessionExists(req){
-
     if(!isEmpty(req.cookies)){  //TODO: check specifically the session cooki
         console.log('cookie exists')
         let data = getUserSession(req)
