@@ -9,8 +9,7 @@ function Dashboard(props){
                 <div className="nav">
                     <h1>Dashboard</h1>
                     <ul>
-                        <li>Welcome xxx</li>
-                        <a href="/details"><li>Details</li></a>
+                        <a href="/profile"><li>{props.user}'s Profile</li></a>
                         <a href="/logout_action"><li>Logout</li></a>
                     </ul>
                 </div>
@@ -18,7 +17,7 @@ function Dashboard(props){
                 <div className="showcase"></div>
 
                 <div className="dashboard">
-                    <p>Welcome to your dashboard</p>
+                    <p>Welcome <strong>{props.user}</strong> to your dashboard</p>
                 </div>
             </div>
         </BaseLayout>

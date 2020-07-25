@@ -25,9 +25,6 @@ app.set('views',__dirname + '/views');
 app.set('view engine', 'jsx')
 app.engine('jsx',require('express-react-views').createEngine());
 
-app.get('/react-test',(req,res,next) => {
-    res.render('test',{name: 'John'})
-})
 
 app.get('/test',(req,res,next) => {
     res.render('Logout',{name: 'John'})
@@ -47,19 +44,19 @@ app.get('/',(req,res,next) => {
 })
 
 app.get('/dashboard', (req,res,next) => {
-    console.log(sessions)
     if(!sessionExists(req)){
         res.redirect('/')
     }else {
-        res.render('Dashboard',{name: 'John'})
+        
+        res.render('Dashboard',{user: getUserSession(req).user})
     }
 })
 
-app.get('/details', (req,res,next) => {
+app.get('/profile', (req,res,next) => {
     if(!sessionExists(req)){
         res.redirect('/')
     }else {
-        res.render('Detail',{name: 'John'})
+        res.render('Profile',{user: getUserSession(req).user})
     } 
 })
 
@@ -130,16 +127,18 @@ function verifyLogin(userLogin){
 
 //verify session
 function sessionExists(req){
-    //console.log('output')
-    //console.log(req.cookies)
 
     if(!isEmpty(req.cookies)){  //TODO: check specifically the session cooki
         console.log('cookie exists')
-        let data = sessions.find(session => session.sid === req.cookies.sid)
+        let data = getUserSession(req)
         return data !== undefined
     }else{
         return false
     }
+}
+
+function getUserSession(req){
+    return sessions.find(session => session.sid === req.cookies.sid)
 }
 
 
