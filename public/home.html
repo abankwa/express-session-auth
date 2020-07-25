@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="./stylesheets/style.css" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="/"><h1>Home</h1></a>
+            <ul>
+                <a href="/signup"><li>Sign Up</li></a>
+            </ul>
+        </div>
+
+        <div class="showcase"></div>
+
+        <div class="signin">
+            <form action="/login" method="post">
+                <p>Sign In</p>
+                <label for="username" style="display: block">Username</label>
+                <input type="text" name="username">
+                <label for="password" class="password" style="display: block">Password</label>
+                <input type="password" name="password" style="display: block">
+                <input type="submit" value="Sign In">
+            </form>
+        </div>
+        
+    </div>
+    
+</body>
+</html>
