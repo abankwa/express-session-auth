@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const path = require('path')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const {v4: uuidv4} = require('uuid')
 
 
+//Global Data
 let users = [
     {username: 'james',password: 'jamespass'},
     {username: 'john',password: 'johnpass'},
@@ -15,15 +15,34 @@ let users = [
 
 let sessions = []
 
-//parse request body for post,cookie
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(cookieParser());
+
+//Middleware
+app.use(bodyParser.urlencoded({extended:false})) //parse request body
+app.use(cookieParser());                        //parse cookie
+
+//template engine
+app.set('views',__dirname + '/views');
+app.set('view engine', 'jsx')
+app.engine('jsx',require('express-react-views').createEngine());
+
+app.get('/react-test',(req,res,next) => {
+    res.render('test',{name: 'John'})
+})
+
+app.get('/test',(req,res,next) => {
+    res.render('Logout',{name: 'John'})
+})
+
+//Serve Static Files
+app.use(express.static('public'))
+
+
 
 app.get('/',(req,res,next) => {
     if(sessionExists(req)){
         res.redirect('/dashboard')
     }else {
-        res.sendFile(__dirname + './public/home.html')
+        res.sendFile(__dirname + '/public/home.html')
     }
 })
 
@@ -32,7 +51,7 @@ app.get('/dashboard', (req,res,next) => {
     if(!sessionExists(req)){
         res.redirect('/')
     }else {
-        res.sendFile(__dirname + './public/dashboard.html')
+        res.sendFile(__dirname + '/public/dashboard.html')
     }
 })
 
@@ -40,7 +59,7 @@ app.get('/details', (req,res,next) => {
     if(!sessionExists(req)){
         res.redirect('/')
     }else {
-        res.sendFile(__dirname + './public/detail.html')
+        res.sendFile(__dirname + '/public/detail.html')
     } 
 })
 
@@ -48,7 +67,7 @@ app.get('/signup', (req,res,next) => {
     if(sessionExists(req)){
         res.redirect('/dashboard')
     }else {
-        res.sendFile(__dirname + './public/signup.html')
+        res.sendFile(__dirname + '/public/signup.html')
     } 
 })
 
@@ -72,7 +91,7 @@ app.get('/logout_action', (req,res,next) => {
         sessions = sessions.map(session => session.sid !== req.cookies.sid) //remove user session
         res.redirect('/logout')
     }else {
-        res.sendFile(__dirname + './public/home.html')
+        res.sendFile(__dirname + '/public/home.html')
     }
     
 })
@@ -81,7 +100,7 @@ app.get('/logout', (req,res,next) => {
     if(sessionExists(req)){
         res.redirect('/dashboard')
     }else {
-        res.sendFile(__dirname + './public/logout.html')
+        res.sendFile(__dirname + '/public/logout.html')
     }
     
 })
