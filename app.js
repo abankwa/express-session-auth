@@ -127,6 +127,7 @@ function verifyLogin(userLogin){
 
 //verify session
 function sessionExists(req){
+
     if(!isEmpty(req.cookies)){  //TODO: check specifically the session cooki
         console.log('cookie exists')
         let data = getUserSession(req)
