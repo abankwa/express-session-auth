@@ -42,7 +42,7 @@ app.get('/',(req,res,next) => {
     if(sessionExists(req)){
         res.redirect('/dashboard')
     }else {
-        res.sendFile(__dirname + '/public/home.html')
+        res.render('Home',{name: 'John'})
     }
 })
 
@@ -51,7 +51,7 @@ app.get('/dashboard', (req,res,next) => {
     if(!sessionExists(req)){
         res.redirect('/')
     }else {
-        res.sendFile(__dirname + '/public/dashboard.html')
+        res.render('Dashboard',{name: 'John'})
     }
 })
 
@@ -59,7 +59,7 @@ app.get('/details', (req,res,next) => {
     if(!sessionExists(req)){
         res.redirect('/')
     }else {
-        res.sendFile(__dirname + '/public/detail.html')
+        res.render('Detail',{name: 'John'})
     } 
 })
 
@@ -67,7 +67,7 @@ app.get('/signup', (req,res,next) => {
     if(sessionExists(req)){
         res.redirect('/dashboard')
     }else {
-        res.sendFile(__dirname + '/public/signup.html')
+        res.render('Signup',{name: 'John'})
     } 
 })
 
@@ -91,7 +91,7 @@ app.get('/logout_action', (req,res,next) => {
         sessions = sessions.map(session => session.sid !== req.cookies.sid) //remove user session
         res.redirect('/logout')
     }else {
-        res.sendFile(__dirname + '/public/home.html')
+        res.render('Home',{name: 'John'})
     }
     
 })
@@ -100,7 +100,7 @@ app.get('/logout', (req,res,next) => {
     if(sessionExists(req)){
         res.redirect('/dashboard')
     }else {
-        res.sendFile(__dirname + '/public/logout.html')
+        res.render('Logout',{name: 'John'})
     }
     
 })
