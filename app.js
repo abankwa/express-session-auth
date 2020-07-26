@@ -4,9 +4,10 @@ const port = 3000;
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const {v4: uuidv4} = require('uuid')
+const Session = require('./models/Sessions')
 
 
-//Global Data
+//Global Data //TODO: Replace with DB
 let users = [
     {username: 'james',password: 'jamespass'},
     {username: 'john',password: 'johnpass'},
@@ -17,7 +18,8 @@ let sessions = []
 
 
 //Middleware
-app.use(bodyParser.urlencoded({extended:false})) //parse request body
+app.use(bodyParser.urlencoded({extended:false})) //parse form data body
+//app.use(bodyParser.json())                    //parse json body
 app.use(cookieParser());                        //parse cookie
 
 //template engine
@@ -25,10 +27,6 @@ app.set('views',__dirname + '/views');
 app.set('view engine', 'jsx')
 app.engine('jsx',require('express-react-views').createEngine());
 
-
-app.get('/test',(req,res,next) => {
-    res.render('Logout',{name: 'John'})
-})
 
 //Serve Static Files
 app.use(express.static('public'))
@@ -44,19 +42,18 @@ app.get('/',(req,res,next) => {
 })
 
 app.get('/dashboard', (req,res,next) => {
-    if(!sessionExists(req)){
-        res.redirect('/')
-    }else {
-        
+    if(sessionExists(req)){
         res.render('Dashboard',{user: getUserSession(req).user})
+    }else {
+        res.redirect('/')  
     }
 })
 
 app.get('/profile', (req,res,next) => {
-    if(!sessionExists(req)){
-        res.redirect('/')
-    }else {
+    if(sessionExists(req)){
         res.render('Profile',{user: getUserSession(req).user})
+    }else {
+        res.redirect('/')
     } 
 })
 
@@ -68,12 +65,11 @@ app.get('/signup', (req,res,next) => {
     } 
 })
 
-app.post('/signup_action', (req,res,next) => {
-    const lookup = users.find(user => user.username === req.body.username) //TODO: check if user is already signed in say from another browser/computer
+app.post('/signup', (req,res,next) => {
+    const lookup = users.find(user => user.username === req.body.username)
    if(lookup === undefined){ //user does not exist
        if(req.body.password[0] === req.body.password[1]){
            users = [...users,{username:req.body.username,password:req.body.password[0]}]
-           console.log(users)
            res.send(`Sign up successful. <a href="/">Login</a>`)
        }else {
            res.send(`Password mismatch. <a href="/signup">Try again</a>`)
@@ -83,48 +79,49 @@ app.post('/signup_action', (req,res,next) => {
    }
 })
 
-app.get('/logout_action', (req,res,next) => {
-    if(sessionExists(req)){
-        sessions = sessions.map(session => session.sid !== req.cookies.sid) //remove user session
-        res.redirect('/logout')
-    }else {
-        res.render('Home',{name: 'John'})
-    }
-    
-})
 
 app.get('/logout', (req,res,next) => {
     if(sessionExists(req)){
-        res.redirect('/dashboard')
+        sessions = sessions.map(session => session.sid !== req.cookies.sid) //remove user session
+        res.render('Logout', {name: 'John'})
     }else {
-        res.render('Logout',{name: 'John'})
-    }
-    
+        res.redirect('/')
+    }  
 })
+
 
 app.post('/login', (req,res,next) => {
     if(sessionExists(req)){
         res.redirect('/dashboard')
     }
     if(verifyLogin(req.body)){
-        console.log('login success')
-        const sessionId = uuidv4();
-        sessions = [...sessions,{user: req.body.username, sid:sessionId}]
-        res.setHeader('Set-Cookie',[`sid=${sessionId}`])
+        
+        //create session
+        const session = createAndSaveSession(req)
+
+        //set cookie and headers
+        res.setHeader('Set-Cookie',[`sid=${session.sid}`])
         res.redirect('/dashboard')
     }else {
         res.redirect('/')
-        console.log('login failed')
     }
 })
 
-
 //verify login
-function verifyLogin(userLogin){
-    //let lookup = users.find(user => user.username === userLogin.username && user.password === userLogin.password)
-    //return lookup !== undefined ? true : false 
-    return users.some(user => user.username === userLogin.username && user.password === userLogin.password)
-    
+function verifyLogin(userLogin){ 
+    return users.some(user => user.username === userLogin.username && user.password === userLogin.password)   
+}
+
+//create session
+function createAndSaveSession(req){
+    const session = {user: req.body.username, sid: uuidv4()}
+    sessions = [...sessions,session]
+    return session
+}
+
+//get session
+function getUserSession(req){
+    return sessions.find(session => session.sid === req.cookies.sid)
 }
 
 //verify session
@@ -136,10 +133,6 @@ function sessionExists(req){
     }else{
         return false
     }
-}
-
-function getUserSession(req){
-    return sessions.find(session => session.sid === req.cookies.sid)
 }
 
 

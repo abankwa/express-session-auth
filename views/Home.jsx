@@ -24,6 +24,7 @@ function Home(props){
                         <input type="password" name="password" style ={{display: 'block'}} />
                         <br/>
                         <input type="submit" value="Sign In"/>
+                        <a href="https://google.com">click me</a>
                     </form>
                 </div>
                 

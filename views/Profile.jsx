@@ -10,7 +10,7 @@ function Profile(props){
                     <h1>{props.user}'s Profile</h1>
                     <ul>
                         <a href="/"><li>Home</li></a>
-                        <a href="/logout_action"><li>Logout</li></a>
+                        <a href="/logout"><li>Logout</li></a>
                     </ul>
                 </div>
 

@@ -10,7 +10,7 @@ function Dashboard(props){
                     <h1>Dashboard</h1>
                     <ul>
                         <a href="/profile"><li>{props.user}'s Profile</li></a>
-                        <a href="/logout_action"><li>Logout</li></a>
+                        <a href="/logout"><li>Logout</li></a>
                     </ul>
                 </div>
 

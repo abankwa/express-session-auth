@@ -14,7 +14,7 @@ function Signup(props){
                 <div className="showcase"></div>
 
                 <div className="signup">
-                    <form action="/signup_action" method="post">
+                    <form action="/signup" method="post">
                         <p>Sign Up</p>
                         <label for="username" style={{display: 'block'}}>Username</label>
                         <input type="text" name="username" />
