@@ -16,7 +16,7 @@ function Home(props){
                 <div className="showcase"></div>
 
                 <div className="signin">
-                    <form action="/login" method="post">
+                    <form action="/signin" method="post">
                         <p>Sign In</p>
                         <label for="username" style ={{display: 'block'}}>Username</label>
                         <input type="text" name="username" style ={{display: 'block'}}/>
