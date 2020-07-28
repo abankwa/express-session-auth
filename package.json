@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "clean-css": "^4.2.3",
+    "constantinople": "^4.0.1",
     "cookie-parser": "^1.4.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
