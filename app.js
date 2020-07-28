@@ -16,8 +16,7 @@ app.use('/pp',test)
 dotenv.config()
 
 //connect to DB
-mongoose.connect('mongodb+srv://dbuser:pass123@cluster0.3bsqd.mongodb.net/rest?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(console.log('db connected'))
-//mongoose.connect(process.env.DB_URL,{ useNewUrlParser: true ,useUnifiedTopology: true}).then(console.log('db connected'))
+mongoose.connect(process.env.DB_URL,{ useNewUrlParser: true ,useUnifiedTopology: true}).then(console.log('db connected'))
 
 
 //Middleware
