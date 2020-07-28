@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const { v4: uuidv4 } = require('uuid')
@@ -9,6 +8,10 @@ const User = require('./models/User')
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const  test  = require('./routes/test')
+
+app.use('/pp',test)
+
 
 dotenv.config()
 
@@ -67,7 +70,6 @@ app.get('/signup', async (req, res, next) => {
 
 app.post('/signup', async (req, res, next) => {
 
-    //////////////
     const { body } = req
     const { username, password } = body
 
@@ -166,4 +168,4 @@ async function sessionExists(req) {
     return temp;
 }
 
-app.listen(port, () => console.log('running..'))
+app.listen(process.env.PORT, () => console.log('running..'))

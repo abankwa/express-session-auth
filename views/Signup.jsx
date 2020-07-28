@@ -16,11 +16,11 @@ function Signup(props){
                 <div className="signup">
                     <form action="/signup" method="post">
                         <p>Sign Up</p>
-                        <label for="username" style={{display: 'block'}}>Username</label>
+                        <label htmlFor="username" style={{display: 'block'}}>Username</label>
                         <input type="text" name="username" />
-                        <label for="password" className="password" style={{display: 'block'}}>Password</label>
+                        <label htmlFor="password" className="password" style={{display: 'block'}}>Password</label>
                         <input type="password" name="password" style={{display: 'block'}} />
-                        <label for="password2" className="password" style={{display: 'block'}} >Re-Enter Password</label>
+                        <label htmlFor="password2" className="password" style={{display: 'block'}} >Re-Enter Password</label>
                         <input type="password" name="password" style={{display: 'block'}} />
                         <input type="submit" value="Sign Up" />
                     </form>
